@@ -1,5 +1,7 @@
 # %%
-from dataclasses import dataclass
+import copy
+from argparse import Namespace
+from dataclasses import dataclass, field
 from functools import partial
 
 import torch
@@ -10,26 +12,14 @@ from utils import create_model
 from utils.pos_embed import interpolate_pos_embed_multimae
 
 
-@dataclass
-class DefaultArgs:
-    patch_size = 16
-    input_size = 224  # 256
-    model = 'multivit_base'
-    in_domains = ['rgb']
-    out_domains = ['depth']
-    output_adapter = 'dpt'
-    decoder_main_tasks = ['rgb']
-    head_type = 'regression'
-
-
 WEIGHTS_DICT = {
     'mae': {
         'url': 'https://github.com/EPFL-VILAB/MultiMAE/releases/download/pretrained-weights/mae-b_dec512d8b_1600e_multivit-c477195b.pth',
-        'args': DefaultArgs(),
+        'args': {},  # these update the default args below
     },
     'multimae': {
         'url': 'https://github.com/EPFL-VILAB/MultiMAE/releases/download/pretrained-weights/multimae-b_98_rgb+-depth-semseg_1600e_multivit-afff3f8c.pth',
-        'args': DefaultArgs(),
+        'args': {},
     },
 }
 
@@ -53,11 +43,31 @@ DOMAIN_CONF = {
 }
 
 
-def mae(model_name: str = 'mae', pretrained: bool = True, checkpoint_path: str = None):
+DEFAULT_ARGS = {
+    'patch_size': 16,
+    'input_size': 224, 
+    'model': 'multivit_base', 
+    'in_domains': ['rgb'], 
+    'out_domains': ['depth'], 
+    'output_adapter': 'dpt', 
+    'decoder_main_tasks': ['rgb'], 
+    'head_type': 'regression'
+}
+
+
+def mae(
+    model_name: str = 'mae', 
+    pretrained: bool = True, 
+    checkpoint_path: str = None, 
+    **kwargs
+):
     
     # Get model arguments from name
     model_dict = WEIGHTS_DICT[model_name]
-    args: DefaultArgs = model_dict['args']
+    args = copy.deepcopy(DEFAULT_ARGS)  # default args
+    args.update(model_dict['args'])  # model args
+    args.update(kwargs)  # user args
+    args = Namespace(**args)  # convert
 
     # Create input adapters
     input_adapters = {
@@ -126,8 +136,8 @@ def mae(model_name: str = 'mae', pretrained: bool = True, checkpoint_path: str =
 
 
 if __name__ == "__main__":
-    model = mae()
-    x = torch.randn(1, 3, 224, 224)
+    model = mae(input_size=256)
+    x = torch.randn(1, 3, 256, 256)
     o = model(x)
     print(o.shape)
     import pdb
