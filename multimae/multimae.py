@@ -466,7 +466,8 @@ class MultiViT(MultiMAE):
 
         return input_tokens, input_info
 
-    def forward(self, x: Union[Dict[str, torch.Tensor], torch.Tensor], return_all_layers=False, **kwargs):
+    def forward(self, x: Union[Dict[str, torch.Tensor], torch.Tensor], return_all_layers: bool = False, 
+                return_dict: bool = False, **kwargs):
         """
         Forward pass through input adapters, transformer encoder and output adapters.
 
@@ -477,7 +478,7 @@ class MultiViT(MultiMAE):
         input_tokens, input_info = self.process_input(x)
 
         # Pass tokens through Transformer
-        if not return_all_layers:
+        if (not return_all_layers) and (self.output_adapters is None):
             encoder_tokens = self.encoder(input_tokens)
         else:
             # Optionally access every intermediate layer
@@ -498,6 +499,10 @@ class MultiViT(MultiMAE):
             )
             for domain in self.output_adapters
         }
+
+        # Return raw tensor if there is only a single output and we are not returning the dict
+        if len(self.output_adapters) == 1 and not return_dict:
+            return preds[list(self.output_adapters.keys())[0]]
 
         return preds
 
