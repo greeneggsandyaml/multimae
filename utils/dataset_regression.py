@@ -23,9 +23,9 @@ except:
 # import cv2
 import torch.nn.functional as F
 
-from utils import (IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD, NYU_MEAN,
+from MULTIMAE_UTILS import (IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD, NYU_MEAN,
                    NYU_STD, PAD_MASK_VALUE)
-from utils.dataset_folder import ImageFolder, MultiTaskImageFolder
+from MULTIMAE_UTILS.dataset_folder import ImageFolder, MultiTaskImageFolder
 
 
 def nyu_transform(train, additional_targets, input_size=512, color_aug=False):

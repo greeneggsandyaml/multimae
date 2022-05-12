@@ -8,8 +8,8 @@ import torch
 
 from multimae.input_adapters import PatchedInputAdapter
 from multimae.output_adapters import ConvNeXtAdapter, DPTOutputAdapter
-from utils import create_model
-from utils.pos_embed import interpolate_pos_embed_multimae
+from MULTIMAE_UTILS import create_model
+from MULTIMAE_UTILS.pos_embed import interpolate_pos_embed_multimae
 
 
 WEIGHTS_DICT = {
@@ -51,7 +51,8 @@ DEFAULT_ARGS = {
     'out_domains': ['depth'], 
     'output_adapter': 'dpt', 
     'decoder_main_tasks': ['rgb'], 
-    'head_type': 'regression'
+    'head_type': 'regression',
+    'num_classes': None,
 }
 
 
@@ -90,7 +91,7 @@ def mae(
     }
     output_adapters = {
         domain: adapters_dict[args.output_adapter](
-            num_classes=DOMAIN_CONF[domain]['channels'],
+            num_classes=(num_classes if args.num_classes is None else DOMAIN_CONF[domain]['channels']),
             stride_level=DOMAIN_CONF[domain]['stride_level'],
             patch_size=args.patch_size,
             main_tasks=args.decoder_main_tasks

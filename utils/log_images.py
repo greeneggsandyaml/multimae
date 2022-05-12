@@ -12,8 +12,8 @@ import torch.nn.functional as F
 import torchvision.transforms as transforms
 import wandb
 
-import utils
-from utils.datasets_semseg import (ade_classes, hypersim_classes,
+import MULTIMAE_UTILS
+from MULTIMAE_UTILS.datasets_semseg import (ade_classes, hypersim_classes,
                                    nyu_v2_40_classes)
 
 

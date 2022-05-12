@@ -25,7 +25,8 @@ from einops import rearrange, repeat
 from torch import nn
 from torch.distributions.dirichlet import Dirichlet
 
-from utils.registry import register_model
+
+from MULTIMAE_UTILS.registry import register_model
 
 from .multimae_utils import Block, trunc_normal_
 

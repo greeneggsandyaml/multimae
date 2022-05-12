@@ -31,19 +31,19 @@ import torch.backends.cudnn as cudnn
 import yaml
 from einops import rearrange
 
-import utils
-import utils.data_constants as data_constants
+import MULTIMAE_UTILS
+import MULTIMAE_UTILS.data_constants as data_constants
 from multimae import multimae
 from multimae.criterion import (MaskedCrossEntropyLoss, MaskedL1Loss,
                                 MaskedMSELoss)
 from multimae.input_adapters import PatchedInputAdapter, SemSegInputAdapter
 from multimae.output_adapters import SpatialOutputAdapter
-from utils import NativeScalerWithGradNormCount as NativeScaler
-from utils import create_model
-from utils.data_constants import COCO_SEMSEG_NUM_CLASSES
-from utils.datasets import build_multimae_pretraining_dataset
-from utils.optim_factory import create_optimizer
-from utils.task_balancing import (NoWeightingStrategy,
+from MULTIMAE_UTILS import NativeScalerWithGradNormCount as NativeScaler
+from MULTIMAE_UTILS import create_model
+from MULTIMAE_UTILS.data_constants import COCO_SEMSEG_NUM_CLASSES
+from MULTIMAE_UTILS.datasets import build_multimae_pretraining_dataset
+from MULTIMAE_UTILS.optim_factory import create_optimizer
+from MULTIMAE_UTILS.task_balancing import (NoWeightingStrategy,
                                   UncertaintyWeightingStrategy)
 
 DOMAIN_CONF = {

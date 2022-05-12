@@ -31,21 +31,21 @@ import torch.distributed as dist
 import torch.nn.functional as F
 import yaml
 
-import utils
-import utils.data_constants as data_constants
+import MULTIMAE_UTILS
+import MULTIMAE_UTILS.data_constants as data_constants
 from multimae import multimae
 from multimae.input_adapters import PatchedInputAdapter, SemSegInputAdapter
 from multimae.output_adapters import (ConvNeXtAdapter, DPTOutputAdapter,
                                       SegmenterMaskTransformerAdapter)
-from utils import NativeScalerWithGradNormCount as NativeScaler
-from utils import create_model
-from utils.data_constants import COCO_SEMSEG_NUM_CLASSES
-from utils.datasets_semseg import build_semseg_dataset, simple_transform
-from utils.dist import collect_results_cpu
-from utils.log_images import log_semseg_wandb
-from utils.optim_factory import LayerDecayValueAssigner, create_optimizer
-from utils.pos_embed import interpolate_pos_embed_multimae
-from utils.semseg_metrics import mean_iou
+from MULTIMAE_UTILS import NativeScalerWithGradNormCount as NativeScaler
+from MULTIMAE_UTILS import create_model
+from MULTIMAE_UTILS.data_constants import COCO_SEMSEG_NUM_CLASSES
+from MULTIMAE_UTILS.datasets_semseg import build_semseg_dataset, simple_transform
+from MULTIMAE_UTILS.dist import collect_results_cpu
+from MULTIMAE_UTILS.log_images import log_semseg_wandb
+from MULTIMAE_UTILS.optim_factory import LayerDecayValueAssigner, create_optimizer
+from MULTIMAE_UTILS.pos_embed import interpolate_pos_embed_multimae
+from MULTIMAE_UTILS.semseg_metrics import mean_iou
 
 DOMAIN_CONF = {
     'rgb': {

@@ -6,8 +6,8 @@ import torch
 
 from multimae.input_adapters import PatchedInputAdapter
 from multimae.output_adapters import ConvNeXtAdapter, DPTOutputAdapter
-from utils import create_model
-from utils.pos_embed import interpolate_pos_embed_multimae
+from MULTIMAE_UTILS import create_model
+from MULTIMAE_UTILS.pos_embed import interpolate_pos_embed_multimae
 
 # Parameters
 pretrained = True
