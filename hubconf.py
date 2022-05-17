@@ -91,7 +91,7 @@ def mae(
     }
     output_adapters = {
         domain: adapters_dict[args.output_adapter](
-            num_classes=(num_classes if args.num_classes is None else DOMAIN_CONF[domain]['channels']),
+            num_classes=(args.num_classes if args.num_classes is not None else DOMAIN_CONF[domain]['channels']),
             stride_level=DOMAIN_CONF[domain]['stride_level'],
             patch_size=args.patch_size,
             main_tasks=args.decoder_main_tasks
